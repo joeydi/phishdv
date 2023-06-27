@@ -1,9 +1,9 @@
-import ShowBrowser from "../components/ShowBrowser.js";
+import YearsBrowser from "../../components/YearsBrowser.js";
 
 async function getData() {
     const res = await fetch(
-        // "https://api.phish.net/v5/shows/artist/phish.json?order_by=showdate&apikey=EAF2237D09D475C42DC4",
-        "https://api.phish.net/v5/shows/artistid/2.json?order_by=showdate&apikey=EAF2237D09D475C42DC4",
+        "https://api.phish.net/v5/shows/artist/phish.json?order_by=showdate&apikey=EAF2237D09D475C42DC4",
+        // "https://api.phish.net/v5/shows/artistid/2.json?order_by=showdate&apikey=EAF2237D09D475C42DC4",
         { next: { revalidate: 60 } }
     );
 
@@ -20,7 +20,7 @@ export default async function Home() {
 
     return (
         <main>
-            <ShowBrowser shows={shows} />
+            <YearsBrowser shows={shows} />
         </main>
     );
 }

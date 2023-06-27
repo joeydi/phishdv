@@ -3,25 +3,87 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 214, 219, 220;
+    --background-end-rgb: 255, 255, 255;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+    :root {
+        --foreground-rgb: 255, 255, 255;
+        --background-start-rgb: 0, 0, 0;
+        --background-end-rgb: 0, 0, 0;
+    }
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+    color: rgb(var(--foreground-rgb));
+    background: #000;
+}
+
+main {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+main svg {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 95%;
+    height: 95%;
+}
+
+.show {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 30%;
+    transition: transform 0.5s, opacity 0.5s;
+}
+
+.show.previous {
+    transform: translate(-50%, calc(-50% - 100px));
+    opacity: 0;
+}
+
+.show.next {
+    transform: translate(-50%, calc(-50% + 100px));
+    opacity: 0;
+}
+
+.selected-show-wrap {
+    display: flex;
+    flex-flow: column nowrap;
+    min-height: 100vh;
+    justify-content: center;
+}
+
+.selected-show {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 600px;
+    margin: 100px auto;
+    padding: 40px;
+    background-color: white;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: transform 0.5s, opacity 0.5s;
+    pointer-events: none;
+}
+
+.selected-show.active {
+    transform: none;
+    opacity: 1;
+    pointer-events: all;
 }

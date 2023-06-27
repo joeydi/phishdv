@@ -46,7 +46,11 @@ function Box(props) {
     const { color, ...meshProps } = props;
 
     // Subscribe this component to the render-loop, rotate the mesh every frame
-    useFrame((state, delta) => (mesh.current.rotation.z += delta * 0.5));
+    useFrame((state, delta) => {
+        mesh.current.rotation.x += delta * 0.25;
+        mesh.current.rotation.y += delta * 0.5;
+        mesh.current.rotation.z += delta * 1;
+    });
 
     // Return view, these are regular three.js elements expressed in JSX
     return (
@@ -57,7 +61,7 @@ function Box(props) {
             onClick={(event) => setActive(!active)}
             onPointerOver={(event) => setHover(true)}
             onPointerOut={(event) => setHover(false)}>
-            <boxGeometry args={[0.005, 10, 0.5]} />
+            <boxGeometry args={[0.005, 1, 0.5]} />
             <meshStandardMaterial color={hovered ? color : color} />
         </mesh>
     );
@@ -87,23 +91,14 @@ export default async function Three() {
             <directionalLight color="white" position={[0, 0, 10]} />
 
             {shows.map((show, i) => {
-                const radius = 0.1;
+                const radius = 3;
                 const degrees = (360 / shows.length) * i + 90;
                 const radians = MathUtils.degToRad(degrees);
                 const { x, y } = getPointCoordinates(radius, degrees);
                 const rgb = mixRGB([255, 0, 132], [3, 94, 252], convertRange(i, [0, shows.length], [0, 1]));
                 const color = new Color(`rgb(${rgb.join(", ")})`);
 
-                console.log(color);
-
-                return (
-                    <Box
-                        key={i}
-                        color={color}
-                        position={[x, y, 0]}
-                        rotation={[Math.PI / 8, Math.PI / 4, radians + Math.PI / 2]}
-                    />
-                );
+                return <Box key={i} color={color} position={[x, y, 0]} rotation={[0, 0, radians + Math.PI / 2]} />;
             })}
 
             <OrbitControls />

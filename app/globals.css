@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 :root {
     --foreground-rgb: 0, 0, 0;
@@ -24,7 +22,7 @@ body {
 
 body {
     color: rgb(var(--foreground-rgb));
-    background: #000;
+    background: #fff;
 }
 
 main {
@@ -40,6 +38,16 @@ main svg {
     transform: translate(-50%, -50%);
     width: 95%;
     height: 95%;
+}
+
+main svg line {
+    transition: transform 0.15s, stroke-width 0.15s;
+    cursor: pointer;
+}
+
+main svg line:hover {
+    transform: scale(1.1);
+    stroke-width: 2;
 }
 
 .show {

@@ -71,5 +71,30 @@ function runMigrations(db: Database.Database): void {
         );
         CREATE INDEX IF NOT EXISTS idx_shows_showdate ON shows(showdate);
         CREATE INDEX IF NOT EXISTS idx_shows_artistid ON shows(artistid);
+
+        CREATE TABLE IF NOT EXISTS setlist_entries (
+            uniqueid    INTEGER PRIMARY KEY,
+            showid      INTEGER NOT NULL,
+            songid      INTEGER,
+            song        TEXT,
+            slug        TEXT,
+            set_name    TEXT,
+            position    INTEGER,
+            transition  INTEGER,
+            trans_mark  TEXT,
+            footnote    TEXT,
+            isjam       INTEGER,
+            isreprise   INTEGER,
+            isjamchart  INTEGER,
+            raw         TEXT NOT NULL,
+            imported_at INTEGER NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_setlist_entries_showid ON setlist_entries(showid);
+        CREATE INDEX IF NOT EXISTS idx_setlist_entries_songid ON setlist_entries(songid);
     `);
+
+    const showCols = db.prepare("PRAGMA table_info(shows)").all() as { name: string }[];
+    if (!showCols.some((c) => c.name === "setlist_fetched_at")) {
+        db.exec("ALTER TABLE shows ADD COLUMN setlist_fetched_at INTEGER");
+    }
 }

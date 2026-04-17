@@ -42,4 +42,23 @@ export type ShowRow = {
     tour_name: string | null;
     raw: string;
     imported_at: number;
+    setlist_fetched_at: number | null;
+};
+
+export type SetlistEntryRow = {
+    uniqueid: number;
+    showid: number;
+    songid: number | null;
+    song: string | null;
+    slug: string | null;
+    set_name: string | null;
+    position: number | null;
+    transition: number | null;
+    trans_mark: string | null;
+    footnote: string | null;
+    isjam: number | null;
+    isreprise: number | null;
+    isjamchart: number | null;
+    raw: string;
+    imported_at: number;
 };

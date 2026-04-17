@@ -18,3 +18,9 @@ export function listShowsByVenue(venueid: number): ShowRow[] {
         .prepare("SELECT * FROM shows WHERE venueid = ? ORDER BY showdate DESC")
         .all(venueid) as ShowRow[];
 }
+
+export function markShowSetlistFetched(showid: number, timestamp: number): void {
+    getDb()
+        .prepare("UPDATE shows SET setlist_fetched_at = ? WHERE showid = ?")
+        .run(timestamp, showid);
+}

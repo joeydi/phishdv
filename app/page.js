@@ -19,7 +19,7 @@ export default async function Home() {
     const shows = data.data ?? [];
 
     return (
-        <main>
+        <main className="show-browser-main">
             <ShowBrowser shows={shows} />
         </main>
     );

@@ -35,8 +35,8 @@ export default function SearchableList({ items, basePath, placeholder = "Search.
     }, [items, query]);
 
     return (
-        <div className="flex h-full flex-col">
-            <div className="border-b p-3">
+        <div className="flex h-full min-h-0 flex-col">
+            <div className="shrink-0 border-b p-3">
                 <Input
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
@@ -47,7 +47,7 @@ export default function SearchableList({ items, basePath, placeholder = "Search.
                     {filtered.length.toLocaleString()} of {items.length.toLocaleString()}
                 </p>
             </div>
-            <ScrollArea className="flex-1">
+            <ScrollArea className="min-h-0 flex-1">
                 <ul className="p-1">
                     {filtered.map((item) => {
                         const isActive = String(item.id) === activeId;

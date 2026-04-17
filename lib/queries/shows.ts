@@ -12,3 +12,9 @@ export function getShow(showid: number): ShowRow | undefined {
         .prepare("SELECT * FROM shows WHERE showid = ?")
         .get(showid) as ShowRow | undefined;
 }
+
+export function listShowsByVenue(venueid: number): ShowRow[] {
+    return getDb()
+        .prepare("SELECT * FROM shows WHERE venueid = ? ORDER BY showdate DESC")
+        .all(venueid) as ShowRow[];
+}

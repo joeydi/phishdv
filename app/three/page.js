@@ -91,6 +91,28 @@ export default async function Three() {
             <directionalLight color="white" position={[0, 0, 10]} />
 
             {shows.map((show, i) => {
+                const radius = 1;
+                const degrees = (360 / shows.length) * i + 90;
+                const radians = MathUtils.degToRad(degrees);
+                const { x, y } = getPointCoordinates(radius, degrees);
+                const rgb = mixRGB([255, 0, 132], [3, 94, 252], convertRange(i, [0, shows.length], [0, 1]));
+                const color = new Color(`rgb(${rgb.join(", ")})`);
+
+                return <Box key={i} color={color} position={[x, y, 0]} rotation={[0, 0, radians + Math.PI / 2]} />;
+            })}
+
+            {shows.map((show, i) => {
+                const radius = 2;
+                const degrees = (360 / shows.length) * i + 90;
+                const radians = MathUtils.degToRad(degrees);
+                const { x, y } = getPointCoordinates(radius, degrees);
+                const rgb = mixRGB([3, 94, 252], [255, 0, 132], convertRange(i, [0, shows.length], [0, 1]));
+                const color = new Color(`rgb(${rgb.join(", ")})`);
+
+                return <Box key={i} color={color} position={[x, y, 0]} rotation={[0, 0, radians + Math.PI / 2]} />;
+            })}
+
+            {shows.map((show, i) => {
                 const radius = 3;
                 const degrees = (360 / shows.length) * i + 90;
                 const radians = MathUtils.degToRad(degrees);

@@ -20,10 +20,7 @@ export default function ShowOverlay({ show }) {
 
     useEffect(() => {
         const getSetlist = async (showid) => {
-            const res = await fetch(
-                `https://api.phish.net/v5/setlists/showid/${showid}.json?order_by=showdate&apikey=EAF2237D09D475C42DC4`,
-                { next: { revalidate: 60 } }
-            );
+            const res = await fetch(`/api/setlists/${showid}`);
 
             if (!res.ok) {
                 throw new Error("Failed to fetch data");

@@ -35,42 +35,6 @@ function YearList({ year, shows }) {
 export default function YearsBrowser({ shows }) {
     const years = groupByProperty(shows, "showyear");
 
-    const [activeIndex, setActiveIndex] = useState(0);
-    // const activeShow = shows[activeIndex];
-
-    // const [selectedIndex, setSelectedIndex] = useState(null);
-    // const selectedShow = shows[selectedIndex] ?? null;
-
-    // const handleMouseEnter = (e, index) => {
-    //     setActiveIndex(index);
-    // };
-
-    // const handleClick = (e, index) => {
-    //     setSelectedIndex(index);
-    // };
-
-    // const escKeyHandler = (e) => {
-    //     if (e.key === "Escape") {
-    //         setSelectedIndex(null);
-    //     }
-
-    //     if (e.key === "ArrowLeft") {
-    //         setSelectedIndex(selectedIndex - 1);
-    //     }
-
-    //     if (e.key === "ArrowRight") {
-    //         setSelectedIndex(selectedIndex + 1);
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     window.addEventListener("keyup", escKeyHandler);
-
-    //     return () => {
-    //         window.removeEventListener("keyup", escKeyHandler);
-    //     };
-    // });
-
     return (
         <div className="years">
             {Object.keys(years).map((year) => {

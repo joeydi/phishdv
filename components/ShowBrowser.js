@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ShowOverlay from "./ShowOverlay.js";
 
 function getPointCoordinates(radius, degrees) {
@@ -29,6 +29,22 @@ export default function ShowBrowser({ shows }) {
     const [selectedIndex, setSelectedIndex] = useState(null);
     const selectedShow = shows[selectedIndex] ?? null;
 
+    const lineGeometry = useMemo(
+        () =>
+            shows.map((_, i) => {
+                const angle = (360 / shows.length) * i - 90;
+                const { x: x1, y: y1 } = getPointCoordinates(300, angle);
+                const { x: x2, y: y2 } = getPointCoordinates(500, angle);
+                return {
+                    x1: x1 + 500,
+                    y1: y1 + 500,
+                    x2: x2 + 500,
+                    y2: y2 + 500,
+                };
+            }),
+        [shows]
+    );
+
     const handleMouseEnter = (e, index) => {
         setActiveIndex(index);
     };
@@ -37,55 +53,46 @@ export default function ShowBrowser({ shows }) {
         setSelectedIndex(index);
     };
 
-    const escKeyHandler = (e) => {
-        if (e.key === "Escape") {
-            setSelectedIndex(null);
-        }
-
-        if (e.key === "ArrowLeft") {
-            setSelectedIndex(selectedIndex - 1);
-        }
-
-        if (e.key === "ArrowRight") {
-            setSelectedIndex(selectedIndex + 1);
-        }
-    };
-
     useEffect(() => {
+        const escKeyHandler = (e) => {
+            if (e.key === "Escape") {
+                setSelectedIndex(null);
+            }
+
+            if (e.key === "ArrowLeft") {
+                setSelectedIndex(selectedIndex - 1);
+            }
+
+            if (e.key === "ArrowRight") {
+                setSelectedIndex(selectedIndex + 1);
+            }
+        };
+
         window.addEventListener("keyup", escKeyHandler);
 
         return () => {
             window.removeEventListener("keyup", escKeyHandler);
         };
-    });
+    }, [selectedIndex]);
 
     return (
         <div>
             <svg width="1000" height="1000" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="500" cy="500" r="400" fill="none" stroke="white" strokeWidth="200" />
-                {shows.map((show, i) => {
-                    let scale = i === activeIndex ? 1.1 : 1;
-                    let strokeWidth = i === activeIndex ? 2 : 0.75;
-
-                    let { x: x1, y: y1 } = getPointCoordinates(300, (360 / shows.length) * i - 90);
-                    let { x: x2, y: y2 } = getPointCoordinates(500, (360 / shows.length) * i - 90);
-
-                    return (
-                        <line
-                            key={`line_${i}`}
-                            x1={x1 + 500}
-                            y1={y1 + 500}
-                            x2={x2 + 500}
-                            y2={y2 + 500}
-                            transform={`scale(${scale})`}
-                            transformOrigin={`${x1 + 500} ${y1 + 500}`}
-                            stroke="red"
-                            strokeWidth={strokeWidth}
-                            onMouseEnter={(e) => handleMouseEnter(e, i)}
-                            onClick={(e) => handleClick(e, i)}
-                        />
-                    );
-                })}
+                {lineGeometry.map(({ x1, y1, x2, y2 }, i) => (
+                    <line
+                        key={`line_${i}`}
+                        x1={x1}
+                        y1={y1}
+                        x2={x2}
+                        y2={y2}
+                        transformOrigin={`${x1} ${y1}`}
+                        stroke="red"
+                        strokeWidth={0.75}
+                        onMouseEnter={(e) => handleMouseEnter(e, i)}
+                        onClick={(e) => handleClick(e, i)}
+                    />
+                ))}
             </svg>
             {shows.map((show, i) => {
                 return (

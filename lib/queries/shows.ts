@@ -24,3 +24,13 @@ export function markShowSetlistFetched(showid: number, timestamp: number): void 
         .prepare("UPDATE shows SET setlist_fetched_at = ? WHERE showid = ?")
         .run(timestamp, showid);
 }
+
+export function getShowDateRangeForArtist(
+    artistName: string
+): { min: string; max: string } | undefined {
+    const row = getDb()
+        .prepare("SELECT MIN(showdate) AS min, MAX(showdate) AS max FROM shows WHERE artist_name = ?")
+        .get(artistName) as { min: string | null; max: string | null } | undefined;
+    if (!row || !row.min || !row.max) return undefined;
+    return { min: row.min, max: row.max };
+}

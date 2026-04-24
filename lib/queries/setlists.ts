@@ -7,6 +7,40 @@ export function listSetlistEntries(showid: number): SetlistEntryRow[] {
         .all(showid) as SetlistEntryRow[];
 }
 
+export function getPlayDatesForSong(songid: number): string[] {
+    const rows = getDb()
+        .prepare(
+            `SELECT DISTINCT s.showdate
+             FROM setlist_entries se
+             JOIN shows s ON s.showid = se.showid
+             WHERE se.songid = ?
+             ORDER BY s.showdate ASC`
+        )
+        .all(songid) as { showdate: string }[];
+    return rows.map((r) => r.showdate);
+}
+
+export type SongShowRow = {
+    showid: number;
+    showdate: string;
+    venue: string | null;
+    city: string | null;
+    state: string | null;
+    country: string | null;
+};
+
+export function listShowsForSong(songid: number): SongShowRow[] {
+    return getDb()
+        .prepare(
+            `SELECT DISTINCT s.showid, s.showdate, s.venue, s.city, s.state, s.country
+             FROM setlist_entries se
+             JOIN shows s ON s.showid = se.showid
+             WHERE se.songid = ?
+             ORDER BY s.showdate DESC`
+        )
+        .all(songid) as SongShowRow[];
+}
+
 export type SetlistEntryInput = {
     uniqueid: number;
     showid: number;

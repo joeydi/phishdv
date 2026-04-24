@@ -91,6 +91,12 @@ function runMigrations(db: Database.Database): void {
         );
         CREATE INDEX IF NOT EXISTS idx_setlist_entries_showid ON setlist_entries(showid);
         CREATE INDEX IF NOT EXISTS idx_setlist_entries_songid ON setlist_entries(songid);
+
+        CREATE TABLE IF NOT EXISTS song_data (
+            songid      INTEGER PRIMARY KEY,
+            raw         TEXT NOT NULL,
+            fetched_at  INTEGER NOT NULL
+        );
     `);
 
     const showCols = db.prepare("PRAGMA table_info(shows)").all() as { name: string }[];

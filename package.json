@@ -7,11 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "import:artists": "PATH=/usr/local/bin:$PATH tsx scripts/import-artists.ts",
-    "import:venues": "PATH=/usr/local/bin:$PATH tsx scripts/import-venues.ts",
-    "import:songs": "PATH=/usr/local/bin:$PATH tsx scripts/import-songs.ts",
-    "import:shows": "PATH=/usr/local/bin:$PATH tsx scripts/import-shows.ts",
-    "import:setlists": "PATH=/usr/local/bin:$PATH tsx scripts/import-setlists.ts",
+    "import:artists": "tsx scripts/import-artists.ts",
+    "import:venues": "tsx scripts/import-venues.ts",
+    "import:songs": "tsx scripts/import-songs.ts",
+    "import:shows": "tsx scripts/import-shows.ts",
+    "import:setlists": "tsx scripts/import-setlists.ts",
     "import:all": "npm run import:artists && npm run import:venues && npm run import:songs && npm run import:shows"
   },
   "dependencies": {
